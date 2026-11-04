@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Quest: Belajar Angka SD Kelas 3</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Family -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+            touch-action: manipulation;
+        }
+
+        .bounce-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .bounce-card:hover {
+            transform: translateY(-5deg) scale(1.02);
+        }
+        .bounce-card:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* Custom Animations */
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 2s infinite;
+        }
+
+        /* Star rating effect */
+        .star-pop {
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Container Utama -->
+    <div class="bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border-4 border-yellow-300 w-full max-w-4xl p-4 md:p-8 min-h-[600px] flex flex-col justify-between relative overflow-hidden">
+        
+        <!-- Header Game / Status Bar -->
+        <header class="flex justify-between items-center bg-indigo-100 rounded-2xl p-4 mb-4 border-2 border-indigo-200">
+            <div class="flex items-center space-x-3">
+                <button id="home-btn" class="bg-yellow-400 hover:bg-yellow-500 text-indigo-900 font-bold p-3 rounded-xl shadow-md transition-all active:scale-95 flex items-center gap-2">
+                    <i class="fa-solid fa-house text-xl"></i>
+                    <span class="hidden sm:inline">Menu</span>
+                </button>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold text-indigo-900 leading-tight">Number Quest! 🚀</h1>
+                    <p id="level-title" class="text-sm font-semibold text-indigo-600">Pilih Mode Main</p>
+                </div>
+            </div>
+
+            <!-- Score & Lives -->
+            <div id="stats-container" class="flex items-center space-x-4 hidden">
+                <div class="flex items-center bg-white px-3 py-1.5 rounded-xl border border-indigo-100 shadow-sm">
+                    <i class="fa-solid fa-star text-yellow-400 text-xl mr-2 animate-bounce"></i>
+                    <span id="score-text" class="text-xl font-bold text-indigo-900">0</span>
+                </div>
+                <div class="flex items-center bg-white px-3 py-1.5 rounded-xl border border-indigo-100 shadow-sm">
+                    <i class="fa-solid fa-heart text-red-500 text-xl mr-1"></i>
+                    <span id="lives-text" class="text-xl font-bold text-indigo-900">3</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- SCREEN 1: MENU UTAMA -->
+        <main id="screen-menu" class="flex-1 flex flex-col justify-center items-center py-6 text-center">
+            <div class="mb-6">
+                <div class="inline-block bg-yellow-300 text-yellow-900 px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider mb-2 shadow-sm">
+                    Belajar Bahasa Inggris SD Kelas 3
+                </div>
+                <h2 class="text-3xl md:text-5xl font-black text-indigo-900 mb-2">PETUALANGAN ANGKA</h2>
+                <p class="text-gray-600 font-medium max-w-md mx-auto">Pilih tantangan di bawah dan kumpulkan bintang sebanyak-banyaknya!</p>
+            </div>
+
+            <!-- Kartu Mode Games -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
+                <!-- Level 1 -->
+                <button onclick="startGame(1)" class="bounce-card bg-gradient-to-br from-emerald-400 to-teal-500 text-white p-5 rounded-2xl shadow-lg border-b-4 border-teal-700 flex items-center space-x-4 text-left">
+                    <div class="bg-white/20 p-4 rounded-xl text-3xl">
+                        <i class="fa-solid fa-spell-check"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-bold text-xl">1. Number Names</h3>
+                            <span class="bg-teal-800 text-teal-100 text-xs px-2 py-0.5 rounded-full font-semibold">20 Soal</span>
+                        </div>
+                        <p class="text-xs text-emerald-100 font-normal">Belajar ejaan angka 1 - 100 dalam B. Inggris</p>
+                    </div>
+                </button>
+
+                <!-- Level 2 -->
+                <button onclick="startGame(2)" class="bounce-card bg-gradient-to-br from-blue-400 to-indigo-500 text-white p-5 rounded-2xl shadow-lg border-b-4 border-indigo-700 flex items-center space-x-4 text-left">
+                    <div class="bg-white/20 p-4 rounded-xl text-3xl">
+                        <i class="fa-solid fa-ear-listen"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-bold text-xl">2. Listening Master</h3>
+                            <span class="bg-indigo-800 text-indigo-100 text-xs px-2 py-0.5 rounded-full font-semibold">10 Soal</span>
+                        </div>
+                        <p class="text-xs text-blue-100 font-normal">Dengar pengucapan suara angka & tebak jawabannya!</p>
+                    </div>
+                </button>
+
+                <!-- Level 3 -->
+                <button onclick="startGame(3)" class="bounce-card bg-gradient-to-br from-amber-400 to-orange-500 text-white p-5 rounded-2xl shadow-lg border-b-4 border-orange-700 flex items-center space-x-4 text-left">
+                    <div class="bg-white/20 p-4 rounded-xl text-3xl">
+                        <i class="fa-solid fa-arrow-down-1-9"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-bold text-xl">3. Number Sequence</h3>
+                            <span class="bg-orange-800 text-orange-100 text-xs px-2 py-0.5 rounded-full font-semibold">10 Soal</span>
+                        </div>
+                        <p class="text-xs text-amber-100 font-normal">Lengkapi urutan kata angka (Missing Numbers)</p>
+                    </div>
+                </button>
+
+                <!-- Level 4 -->
+                <button onclick="startGame(4)" class="bounce-card bg-gradient-to-br from-rose-400 to-pink-500 text-white p-5 rounded-2xl shadow-lg border-b-4 border-pink-700 flex items-center space-x-4 text-left">
+                    <div class="bg-white/20 p-4 rounded-xl text-3xl">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-bold text-xl">4. Math Word Quiz</h3>
+                            <span class="bg-pink-800 text-pink-100 text-xs px-2 py-0.5 rounded-full font-semibold">20 Soal</span>
+                        </div>
+                        <p class="text-xs text-pink-100 font-normal">Penjumlahan & Pengurangan teks angka B. Inggris</p>
+                    </div>
+                </button>
+            </div>
+        </main>
+
+        <!-- SCREEN 2: GAMEPLAY -->
+        <main id="screen-game" class="flex-1 flex flex-col justify-between hidden">
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden mb-4">
+                <div id="progress-bar" class="bg-green-500 h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <!-- Question Box -->
+            <div class="bg-indigo-50/80 rounded-2xl p-6 border-2 border-indigo-100 text-center flex-1 flex flex-col items-center justify-center relative mb-6 shadow-inner">
+                <!-- Button Audio Pronunciation -->
+                <button id="speak-btn" class="absolute top-3 right-3 bg-indigo-500 hover:bg-indigo-600 text-white p-3 rounded-full shadow-md transition-transform active:scale-90 flex items-center justify-center" title="Dengarkan Suara">
+                    <i class="fa-solid fa-volume-high text-lg"></i>
+                </button>
+
+                <div id="question-badge" class="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-2">Soal #1</div>
+                <h2 id="question-text" class="text-3xl md:text-5xl font-black text-indigo-950 mb-3 leading-relaxed">Thirty-Five</h2>
+                <p id="question-sub" class="text-indigo-600 font-medium text-lg">Manakah angka yang tepat?</p>
+            </div>
+
+            <!-- Choice Options Area -->
+            <div id="options-container" class="grid grid-cols-2 gap-4 w-full">
+                <!-- Dinamis diisi oleh JS -->
+            </div>
+        </main>
+
+        <!-- SCREEN 3: GAME OVER / RESULT -->
+        <main id="screen-result" class="flex-1 flex flex-col items-center justify-center text-center hidden py-8">
+            <div id="result-icon" class="text-6xl text-yellow-400 mb-4 animate-bounce">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h2 id="result-title" class="text-4xl font-black text-indigo-900 mb-2">Luar Biasa! 🎉</h2>
+            <p id="result-sub" class="text-gray-600 mb-6 font-medium">Kamu menyelesaikan tantangan angka!</p>
+
+            <!-- Card Ringkasan Skor -->
+            <div class="bg-indigo-50 p-6 rounded-2xl border-2 border-indigo-100 w-full max-w-sm mb-6 shadow-sm">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-gray-600 font-bold">Total Skor:</span>
+                    <span id="final-score" class="text-3xl font-black text-indigo-900">0</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600 font-bold">Bintang:</span>
+                    <div id="stars-container" class="flex space-x-1 text-2xl text-yellow-400">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex space-x-4">
+                <button onclick="showMenu()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-6 py-3 rounded-xl shadow-md transition-transform active:scale-95">
+                    <i class="fa-solid fa-list text-lg mr-2"></i> Menu Utama
+                </button>
+                <button id="restart-btn" onclick="restartCurrentLevel()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl shadow-md transition-transform active:scale-95">
+                    <i class="fa-solid fa-rotate-right text-lg mr-2"></i> Main Lagi
+                </button>
+            </div>
+        </main>
+
+        <!-- Toast Feedback Notification -->
+        <div id="feedback-toast" class="absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full text-white font-bold shadow-xl transition-all duration-300 translate-y-20 opacity-0 pointer-events-none flex items-center space-x-2 z-50">
+            <span id="feedback-icon" class="text-xl"></span>
+            <span id="feedback-msg">Benar!</span>
+        </div>
+
+    </div>
+
+    <!-- Script Logika Game -->
+    <script>
+        // Data Angka 1 - 100 dalam Bahasa Inggris
+        const numberWords = {
+            1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five",
+            6: "Six", 7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten",
+            11: "Eleven", 12: "Twelve", 13: "Thirteen", 14: "Fourteen", 15: "Fifteen",
+            16: "Sixteen", 17: "Seventeen", 18: "Eighteen", 19: "Nineteen", 20: "Twenty",
+            30: "Thirty", 40: "Forty", 50: "Fifty", 60: "Sixty", 70: "Seventy",
+            80: "Eighty", 90: "Ninety", 100: "One Hundred"
+        };
+
+        function getNumberInWords(num) {
+            if (numberWords[num]) return numberWords[num];
+            let tens = Math.floor(num / 10) * 10;
+            let ones = num % 10;
+            return `${numberWords[tens]}-${numberWords[ones]}`;
+        }
+
+        // Variable Game State
+        let currentLevel = 1;
+        let score = 0;
+        let lives = 3;
+        let questionIndex = 0;
+        let totalQuestions = 10;
+        let questions = [];
+        let currentQuestionObj = null;
+
+        // Audio Context (Web Audio API)
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+            }
+        }
+
+        function playSound(type) {
+            initAudio();
+            if (!audioCtx) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, now);
+                osc.frequency.linearRampToValueAtTime(120, now + 0.2);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } else if (type === 'win') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440, now);
+                osc.frequency.setValueAtTime(554.37, now + 0.15);
+                osc.frequency.setValueAtTime(659.25, now + 0.3);
+                osc.frequency.setValueAtTime(880, now + 0.45);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.7);
+                osc.start(now);
+                osc.stop(now + 0.7);
+            }
+        }
+
+        // Text To Speech (Suara Bahasa Inggris)
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop suara sebelumnya
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85; // Sedikit dipelankan untuk anak SD
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Generasi Soal Berdasarkan Level
+        function generateQuestions(level) {
+            let qArray = [];
+
+            if (level === 1) {
+                totalQuestions = 20; // Revisi: 20 Soal
+                for (let i = 0; i < totalQuestions; i++) {
+                    let num = Math.floor(Math.random() * 99) + 1;
+                    let text = getNumberInWords(num);
+                    let isTextQuestion = Math.random() > 0.5;
+
+                    let correctOpt = isTextQuestion ? num.toString() : text;
+                    let wrongOptions = new Set();
+
+                    while (wrongOptions.size < 3) {
+                        let wrongNum = Math.floor(Math.random() * 99) + 1;
+                        if (wrongNum !== num) {
+                            wrongOptions.add(isTextQuestion ? wrongNum.toString() : getNumberInWords(wrongNum));
+                        }
+                    }
+
+                    qArray.push({
+                        title: isTextQuestion ? text : num.toString(),
+                        subtitle: isTextQuestion ? "Manakah bentuk angkanya?" : "Manakah ejaan Bahasa Inggrisnya?",
+                        speakText: text,
+                        correct: correctOpt,
+                        options: shuffleArray([correctOpt, ...Array.from(wrongOptions)])
+                    });
+                }
+            } else if (level === 2) {
+                totalQuestions = 10; // Level 2: Listening Master (Bahasa Inggris Listening)
+                for (let i = 0; i < totalQuestions; i++) {
+                    let num = Math.floor(Math.random() * 99) + 1;
+                    let text = getNumberInWords(num);
+
+                    let correctOpt = text;
+                    let wrongOptions = new Set();
+
+                    while (wrongOptions.size < 3) {
+                        let wrongNum = Math.floor(Math.random() * 99) + 1;
+                        if (wrongNum !== num) {
+                            wrongOptions.add(getNumberInWords(wrongNum));
+                        }
+                    }
+
+                    qArray.push({
+                        title: "🔊 Press Speaker to Listen!",
+                        subtitle: "Dengarkan suara dan pilih ejaan angka yang benar!",
+                        speakText: text,
+                        correct: correctOpt,
+                        options: shuffleArray([correctOpt, ...Array.from(wrongOptions)])
+                    });
+                }
+            } else if (level === 3) {
+                totalQuestions = 10; // Level 3: Number Sequence / Missing Number
+                for (let i = 0; i < totalQuestions; i++) {
+                    let step = Math.random() > 0.5 ? 1 : 2; // Lompat 1 atau 2
+                    let start = Math.floor(Math.random() * (90 - (step * 3))) + 1;
+                    let seq = [start, start + step, start + (step * 2), start + (step * 3)];
+                    
+                    let missingIdx = Math.floor(Math.random() * 4); // 0..3
+                    let missingVal = seq[missingIdx];
+                    let missingWord = getNumberInWords(missingVal);
+
+                    // Buat tampilan sequence dengan [ ? ]
+                    let seqStr = seq.map((val, idx) => idx === missingIdx ? "[ ? ]" : val).join(" , ");
+
+                    let wrongOptions = new Set();
+                    while (wrongOptions.size < 3) {
+                        let wrongNum = Math.floor(Math.random() * 99) + 1;
+                        if (wrongNum !== missingVal) {
+                            wrongOptions.add(getNumberInWords(wrongNum));
+                        }
+                    }
+
+                    qArray.push({
+                        title: seqStr,
+                        subtitle: "Pilih nama angka Bahasa Inggris yang tepat untuk melengkapi urutan!",
+                        speakText: `What number comes next? ${missingWord}`,
+                        correct: missingWord,
+                        options: shuffleArray([missingWord, ...Array.from(wrongOptions)])
+                    });
+                }
+            } else if (level === 4) {
+                totalQuestions = 20; // Revisi: 20 Soal (Math Word Quiz Bahasa Inggris)
+                for (let i = 0; i < totalQuestions; i++) {
+                    let isAddition = Math.random() > 0.5;
+                    let a = Math.floor(Math.random() * 30) + 1;
+                    let b = Math.floor(Math.random() * 20) + 1;
+                    
+                    if (!isAddition && a < b) {
+                        let temp = a; a = b; b = temp;
+                    }
+
+                    let ans = isAddition ? (a + b) : (a - b);
+                    let opText = isAddition ? "plus" : "minus";
+                    let wordA = getNumberInWords(a);
+                    let wordB = getNumberInWords(b);
+
+                    let correctVal = getNumberInWords(ans);
+                    let wrongOptions = new Set();
+
+                    while (wrongOptions.size < 3) {
+                        let wrongNum = Math.abs(ans + (Math.floor(Math.random() * 10) - 5));
+                        if (wrongNum !== ans && wrongNum <= 100) {
+                            wrongOptions.add(getNumberInWords(wrongNum));
+                        }
+                    }
+
+                    qArray.push({
+                        title: `${wordA} ${opText} ${wordB} = ?`,
+                        subtitle: "Berapakah hasil dari soal matematika cerita Bahasa Inggris ini?",
+                        speakText: `${wordA} ${opText} ${wordB}`,
+                        correct: correctVal,
+                        options: shuffleArray([correctVal, ...Array.from(wrongOptions)])
+                    });
+                }
+            }
+            return qArray;
+        }
+
+        // Helper Shuffle Array
+        function shuffleArray(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        // Navigation Controllers
+        function showMenu() {
+            document.getElementById('screen-menu').classList.remove('hidden');
+            document.getElementById('screen-game').classList.add('hidden');
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('stats-container').classList.add('hidden');
+            document.getElementById('level-title').innerText = "Pilih Mode Main";
+        }
+
+        function startGame(level) {
+            initAudio();
+            currentLevel = level;
+            score = 0;
+            lives = 3;
+            questionIndex = 0;
+            questions = generateQuestions(level);
+
+            const titles = [
+                "1. Number Names (20 Soal)",
+                "2. Listening Master (10 Soal)",
+                "3. Number Sequence (10 Soal)",
+                "4. Math Word Quiz (20 Soal)"
+            ];
+            document.getElementById('level-title').innerText = titles[level - 1];
+
+            document.getElementById('screen-menu').classList.add('hidden');
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-game').classList.remove('hidden');
+            document.getElementById('stats-container').classList.remove('hidden');
+
+            updateStats();
+            renderQuestion();
+        }
+
+        function restartCurrentLevel() {
+            startGame(currentLevel);
+        }
+
+        function updateStats() {
+            document.getElementById('score-text').innerText = score;
+            document.getElementById('lives-text').innerText = lives;
+            
+            let progressPct = (questionIndex / totalQuestions) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPct}%`;
+        }
+
+        // Render Question UI
+        function renderQuestion() {
+            if (questionIndex >= totalQuestions || lives <= 0) {
+                endGame();
+                return;
+            }
+
+            updateStats();
+
+            currentQuestionObj = questions[questionIndex];
+            
+            document.getElementById('question-badge').innerText = `SOAL ${questionIndex + 1} DARI ${totalQuestions}`;
+            document.getElementById('question-text').innerText = currentQuestionObj.title;
+            document.getElementById('question-sub').innerText = currentQuestionObj.subtitle;
+
+            // Setup tombol audio TTS
+            const speakBtn = document.getElementById('speak-btn');
+            speakBtn.onclick = () => speakText(currentQuestionObj.speakText);
+
+            // Auto-speak ketika soal baru dibuka
+            setTimeout(() => {
+                speakText(currentQuestionObj.speakText);
+            }, 300);
+
+            // Options Container
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            optionsContainer.className = "grid grid-cols-2 gap-4 w-full";
+
+            currentQuestionObj.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = `bounce-card bg-white hover:bg-indigo-50 text-indigo-950 font-bold py-4 px-3 rounded-2xl border-2 border-indigo-200 shadow-md text-lg md:text-xl flex items-center justify-center transition-all`;
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(opt, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Check Answer Controller
+        function checkAnswer(selectedOpt, btnElement) {
+            // Disable all option buttons temporarily
+            const allBtns = document.getElementById('options-container').querySelectorAll('button');
+            allBtns.forEach(b => b.disabled = true);
+
+            const isCorrect = selectedOpt === currentQuestionObj.correct;
+
+            if (isCorrect) {
+                score += 10;
+                playSound('correct');
+                btnElement.classList.remove('bg-white', 'border-indigo-200');
+                btnElement.classList.add('bg-green-500', 'text-white', 'border-green-600');
+                showToast(true, "Hebat! Jawaban Benar 🌟");
+            } else {
+                lives -= 1;
+                playSound('wrong');
+                btnElement.classList.remove('bg-white', 'border-indigo-200');
+                btnElement.classList.add('bg-red-500', 'text-white', 'border-red-600');
+                
+                // Highlight correct button
+                allBtns.forEach(b => {
+                    if (b.innerText === currentQuestionObj.correct) {
+                        b.classList.remove('bg-white');
+                        b.classList.add('bg-green-100', 'border-green-400', 'text-green-800');
+                    }
+                });
+
+                showToast(false, `Kurang Tepat! (Jawaban: ${currentQuestionObj.correct})`);
+            }
+
+            questionIndex++;
+
+            setTimeout(() => {
+                renderQuestion();
+            }, 1400);
+        }
+
+        // Toast Feedback Component
+        function showToast(isCorrect, message) {
+            const toast = document.getElementById('feedback-toast');
+            const icon = document.getElementById('feedback-icon');
+            const msg = document.getElementById('feedback-msg');
+
+            msg.innerText = message;
+            if (isCorrect) {
+                toast.className = "absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full text-white font-bold shadow-xl transition-all duration-300 translate-y-0 opacity-100 bg-green-500 flex items-center space-x-2 z-50";
+                icon.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
+            } else {
+                toast.className = "absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full text-white font-bold shadow-xl transition-all duration-300 translate-y-0 opacity-100 bg-red-500 flex items-center space-x-2 z-50";
+                icon.innerHTML = `<i class="fa-solid fa-circle-xmark"></i>`;
+            }
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 1200);
+        }
+
+        // End Game & Result Screen
+        function endGame() {
+            document.getElementById('screen-game').classList.add('hidden');
+            document.getElementById('screen-result').classList.remove('hidden');
+
+            const finalScoreElem = document.getElementById('final-score');
+            const starsContainer = document.getElementById('stars-container');
+            const titleElem = document.getElementById('result-title');
+            const subElem = document.getElementById('result-sub');
+
+            finalScoreElem.innerText = score;
+            starsContainer.innerHTML = '';
+
+            let maxPossible = totalQuestions * 10;
+            let ratio = score / maxPossible;
+
+            // Perhitungan Bintang
+            let stars = 0;
+            if (ratio >= 0.75) stars = 3;
+            else if (ratio >= 0.4) stars = 2;
+            else if (score > 0) stars = 1;
+
+            if (lives > 0 && stars >= 2) {
+                playSound('win');
+                titleElem.innerText = "Luar Biasa! 🎉";
+                subElem.innerText = "Kamu berhasil menyelesaikan permainan dengan sangat baik!";
+            } else {
+                titleElem.innerText = "Coba Lagi Yuk! 💪";
+                subElem.innerText = "Jangan menyerah, ayo latihan lagi untuk nilai sempurna!";
+            }
+
+            // Render Stars
+            for (let i = 1; i <= 3; i++) {
+                const starIcon = document.createElement('i');
+                if (i <= stars) {
+                    starIcon.className = "fa-solid fa-star star-pop text-yellow-400";
+                    starIcon.style.animationDelay = `${i * 0.2}s`;
+                } else {
+                    starIcon.className = "fa-regular fa-star text-gray-300";
+                }
+                starsContainer.appendChild(starIcon);
+            }
+        }
+
+        // Event Handler Home Button
+        document.getElementById('home-btn').onclick = showMenu;
+
+    </script>
+</body>
+</html>
